@@ -8,6 +8,16 @@ class Registration extends StatefulWidget {
 }
 
 class _RegistrationState extends State<Registration> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  void _register() {
+    String name = _nameController.text;
+    String email = _emailController.text;
+    String password = _passwordController.text;
+    print("Name is $name and Email is $email and Password is $password");
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
@@ -25,6 +35,7 @@ class _RegistrationState extends State<Registration> {
               child: SizedBox(
                 width: screenWidth * 0.78,
                 child: TextField(
+                  controller: _nameController,
                   decoration: InputDecoration(
                     hintText: "Name",
                     suffixIcon: Icon(Icons.person),
@@ -45,10 +56,11 @@ class _RegistrationState extends State<Registration> {
               ),
             ),
             Container(
-              margin: EdgeInsets.symmetric(vertical: 25),
+              margin: EdgeInsets.only(top: 25),
               child: SizedBox(
                 width: screenWidth * 0.78,
                 child: TextField(
+                  controller: _emailController,
                   decoration: InputDecoration(
                     hintText: "Email",
                     suffixIcon: Icon(Icons.email),
@@ -64,6 +76,52 @@ class _RegistrationState extends State<Registration> {
                       borderRadius: BorderRadius.circular(2),
                       borderSide: BorderSide(color: Colors.black, width: 2),
                     ),
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 25),
+              child: SizedBox(
+                width: screenWidth * 0.78,
+                child: TextField(
+                  controller: _passwordController,
+                  decoration: InputDecoration(
+                    hintText: "Password",
+                    suffixIcon: Icon(Icons.lock),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(2),
+                      borderSide: BorderSide(color: Colors.black, width: 1),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(2),
+                      borderSide: BorderSide(color: Colors.black, width: 1),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(2),
+                      borderSide: BorderSide(color: Colors.black, width: 2),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              margin: EdgeInsets.only(top: 25),
+              child: SizedBox(
+                width: screenWidth * 0.70,
+                height: 40,
+                child: ElevatedButton(
+                  onPressed: _register,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.green,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                  child: Text(
+                    "Register",
+                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900),
                   ),
                 ),
               ),
