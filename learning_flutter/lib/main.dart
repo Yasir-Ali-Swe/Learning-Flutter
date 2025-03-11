@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 // import 'package:learning_flutter/Screens/login_screen.dart';
-import 'package:learning_flutter/Screens/registration_screen.dart';
+// import 'package:learning_flutter/Screens/registration_screen.dart';
+import 'package:learning_flutter/Screens/list_builder.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const Registration(),
+      home: List_Builder(),
     );
   }
 }
