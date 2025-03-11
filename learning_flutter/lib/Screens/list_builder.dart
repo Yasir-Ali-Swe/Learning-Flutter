@@ -38,7 +38,10 @@ class List_Builder extends StatelessWidget {
               ),
             ),
             leading: Icon(Icons.label, color: Colors.green),
-            trailing: Icon(Icons.add, color: Colors.green),
+            trailing: Icon(
+              Icons.add,
+              color: const Color.fromARGB(255, 2, 247, 11),
+            ),
             onTap: () {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text("You Taped on ${items[index]}")),
