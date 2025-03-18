@@ -32,7 +32,6 @@ class listView extends StatelessWidget {
     'AirPods Pro',
     'Samsung Galaxy Watch 6',
     'Apple iPad Pro',
-    'Google Pixel 8',
   ];
   listView({super.key});
 
