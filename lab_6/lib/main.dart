@@ -12,7 +12,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  bool isDarkTheme = true;
+  bool isDarkTheme = false;
 
   void toggleTheme() {
     setState(() {
@@ -26,11 +26,43 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: isDarkTheme ? Brightness.dark : Brightness.light,
-        textTheme: TextTheme(
-          bodyLarge: TextStyle(
+
+        appBarTheme: AppBarTheme(
+          backgroundColor: isDarkTheme ? Colors.blue : Colors.deepPurple,
+          elevation: 4,
+          titleTextStyle: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
+            color: isDarkTheme ? Colors.yellow : Colors.black,
+          ),
+          iconTheme: IconThemeData(
+            color: isDarkTheme ? Colors.yellow : Colors.white,
+          ),
+        ),
+
+        textTheme: TextTheme(
+          bodyLarge: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.w900,
             color: isDarkTheme ? Colors.white : Colors.green,
+          ),
+          bodyMedium: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.w700,
+            color: isDarkTheme ? Colors.orangeAccent : Colors.blueAccent,
+          ),
+        ),
+
+        cardTheme: CardTheme(
+          color: isDarkTheme ? Colors.black : Colors.white,
+          shadowColor: isDarkTheme ? Colors.white30 : Colors.black26,
+          elevation: 5,
+          shape: RoundedRectangleBorder(
+            side: BorderSide(
+              color: isDarkTheme ? Colors.yellow : Colors.deepPurple,
+              width: 2,
+            ),
+            borderRadius: BorderRadius.circular(15),
           ),
         ),
       ),
@@ -47,14 +79,7 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "Toggle Theme",
-          style: TextStyle(
-            fontSize: 26,
-            fontWeight: FontWeight.w900,
-            color: Colors.white,
-          ),
-        ),
+        title: const Text("Toggle Theme"),
         actions: [
           IconButton(
             icon: Icon(
@@ -66,14 +91,48 @@ class MainPage extends StatelessWidget {
             onPressed: toggleTheme,
           ),
         ],
-        centerTitle: true,
-        backgroundColor: Colors.deepPurple,
       ),
       body: Center(
         child: Column(
           children: [
             const SizedBox(height: 60),
+
             Text("Yasir Ali", style: Theme.of(context).textTheme.bodyLarge),
+
+            const SizedBox(height: 20),
+
+            Text(
+              "This is Medium Text",
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+
+            const SizedBox(height: 40),
+
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: Column(
+                  children: [
+                    Text(
+                      "Yasir Ali",
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      "Card Theme change on toggle",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                        color:
+                            Theme.of(context).brightness == Brightness.dark
+                                ? Colors.yellow
+                                : Colors.deepPurple,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
       ),
