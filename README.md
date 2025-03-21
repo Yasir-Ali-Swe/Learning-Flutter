@@ -8,6 +8,6 @@ Welcome to my Flutter learning repository! This repository contains all the code
 - Learn Flutter from the ground up.  
 - Push all practice projects and code snippets to GitHub.  
 - Maintain a structured learning path.  
-- Document key concepts and challenges.  
+- Document key concepts and challenges  
 
 
