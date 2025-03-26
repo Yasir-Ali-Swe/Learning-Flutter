@@ -4,35 +4,52 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  bool isDarkTheme = false;
+
+  void toggleTheme() {
+    setState(() {
+      isDarkTheme = !isDarkTheme;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        brightness: Brightness.light,
+        primaryColor: Colors.deepPurple,
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.deepPurple,
+          foregroundColor: Colors.white,
+        ),
       ),
-      home: MyHomePage(),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        primaryColor: Colors.deepPurple,
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.black,
+          foregroundColor: Colors.yellowAccent,
+        ),
+      ),
+      themeMode: isDarkTheme ? ThemeMode.dark : ThemeMode.light,
+      home: MyHomePage(toggleTheme: toggleTheme),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  bool isDarkTheme = false;
-  void toggleTheme() {
-    setState(() {
-      isDarkTheme = !isDarkTheme;
-    });
-  }
+class MyHomePage extends StatelessWidget {
+  final VoidCallback toggleTheme;
+  const MyHomePage({super.key, required this.toggleTheme});
 
   @override
   Widget build(BuildContext context) {
@@ -47,23 +64,16 @@ class _MyHomePageState extends State<MyHomePage> {
       'MobilePhone 5 usd',
       'SmartTablet 15 usd',
     ];
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
           "E-Commerce",
-          style: TextStyle(
-            fontSize: 26,
-            fontWeight: FontWeight.w900,
-            color: Colors.yellowAccent,
-          ),
+          style: const TextStyle(fontSize: 26, fontWeight: FontWeight.w900),
         ),
-        backgroundColor: Colors.black,
         centerTitle: true,
         actions: [
-          Icon(Icons.search, color: Colors.yellowAccent, size: 30),
-          SizedBox(width: 1),
-          Icon(Icons.toggle_on, color: Colors.green, size: 35),
-          SizedBox(width: 20),
+          IconButton(icon: Icon(Icons.brightness_6), onPressed: toggleTheme),
         ],
       ),
       body: Column(
@@ -73,17 +83,19 @@ class _MyHomePageState extends State<MyHomePage> {
             padding: const EdgeInsets.all(16.0),
             child: Row(
               children: [
-                CircleAvatar(radius: 30, child: Icon(Icons.person, size: 30)),
-                SizedBox(width: 5),
+                const CircleAvatar(
+                  radius: 30,
+                  child: Icon(Icons.person, size: 30),
+                ),
+                const SizedBox(width: 5),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  children: const [
                     Text(
                       "Yasir Ali",
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w900,
-                        color: Colors.black,
                       ),
                     ),
                     SizedBox(height: 0.5),
@@ -97,33 +109,34 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
           Expanded(
-            child: Center(
-              child: ListView.builder(
-                itemCount: items.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(
-                      items[index],
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w900,
-                      ),
+            child: ListView.builder(
+              itemCount: items.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(
+                    items[index],
+                    style: const TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w900,
                     ),
-                    leading: Icon(Icons.add, color: Colors.green, size: 30),
-                    trailing: Icon(Icons.remove, color: Colors.red, size: 30),
-                    onTap: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text("You Taped on ${items[index]}"),
-                          duration: Duration(seconds: 1),
-                        ),
-                      );
-                      print(items[index]);
-                    },
-                  );
-                },
-              ),
+                  ),
+                  leading: const Icon(Icons.add, color: Colors.green, size: 30),
+                  trailing: const Icon(
+                    Icons.remove,
+                    color: Colors.red,
+                    size: 30,
+                  ),
+                  onTap: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("You tapped on ${items[index]}"),
+                        duration: const Duration(seconds: 1),
+                      ),
+                    );
+                    print(items[index]);
+                  },
+                );
+              },
             ),
           ),
         ],
