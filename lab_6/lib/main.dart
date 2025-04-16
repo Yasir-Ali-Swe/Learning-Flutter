@@ -36,7 +36,7 @@ class _MyAppState extends State<MyApp> {
             color: isDarkTheme ? Colors.yellow : Colors.black,
           ),
           iconTheme: IconThemeData(
-            color: isDarkTheme ? Colors.yellow : Colors.white,
+            color: isDarkTheme ? Colors.white : Colors.black,
           ),
         ),
 
