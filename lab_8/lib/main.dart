@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'second_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -152,9 +153,12 @@ class NextScreen extends StatelessWidget {
                 elevation: 8,
               ),
               onPressed: () {
-                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SeondPage()),
+                );
               },
-              child: const Text("Go Back"),
+              child: const Text("SecondPage"),
             ),
           ],
         ),
