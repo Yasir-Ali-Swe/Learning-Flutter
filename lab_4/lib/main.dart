@@ -41,6 +41,7 @@ class listView extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           "List View Builder",
+
           style: TextStyle(
             fontSize: 24,
             color: Colors.white,
