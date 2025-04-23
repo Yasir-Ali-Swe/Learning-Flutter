@@ -29,7 +29,7 @@ class MyHomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Decoration Box Example',
+          'First Screen',
           style: TextStyle(
             fontSize: 26,
             fontWeight: FontWeight.w600,
@@ -105,8 +105,16 @@ class NextScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Next Screen"),
-        backgroundColor: Colors.green,
+        title: const Text(
+          "Second Screen",
+          style: TextStyle(
+            fontSize: 26,
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
+          ),
+        ),
+        backgroundColor: Colors.blue,
+        centerTitle: true,
       ),
       body: Center(
         child: Column(
@@ -158,7 +166,7 @@ class NextScreen extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const SeondPage()),
                 );
               },
-              child: const Text("SecondPage"),
+              child: const Text("Next Screen"),
             ),
           ],
         ),

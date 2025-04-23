@@ -7,8 +7,16 @@ class SeondPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Next Screen"),
-        backgroundColor: Colors.green,
+        title: const Text(
+          "Third Screen",
+          style: TextStyle(
+            fontSize: 26,
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
+          ),
+        ),
+        backgroundColor: Colors.blue,
+        centerTitle: true,
       ),
       body: Center(
         child: Column(
