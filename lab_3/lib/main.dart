@@ -29,7 +29,7 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Flutter Lab 1",
+          "Flutter Lab 3",
           style: TextStyle(
             color: Colors.yellow,
             fontSize: 26,

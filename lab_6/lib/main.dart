@@ -30,6 +30,7 @@ class _MyAppState extends State<MyApp> {
         appBarTheme: AppBarTheme(
           backgroundColor: isDarkTheme ? Colors.blue : Colors.deepPurple,
           elevation: 4,
+          centerTitle: true,
           titleTextStyle: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
