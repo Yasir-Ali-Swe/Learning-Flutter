@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'allNotesPage.dart'; // import the new page
+import 'view_notes_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,148 +11,124 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Notes App',
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Notepad',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: const MyHomePage(),
+      home: const AddNotesPage(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class AddNotesPage extends StatefulWidget {
+  const AddNotesPage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<AddNotesPage> createState() => _AddNotesPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _AddNotesPageState extends State<AddNotesPage> {
   final TextEditingController _controller = TextEditingController();
-  final List<String> myNotes = [];
+  final List<String> _notes = [];
 
-  void saveNote() {
+  void _saveNote() {
     final text = _controller.text.trim();
     if (text.isNotEmpty) {
       setState(() {
-        myNotes.add(text);
+        _notes.add(text);
         _controller.clear();
       });
     }
   }
 
-  void deleteNote(int index) {
-    setState(() {
-      myNotes.removeAt(index);
-    });
+  void _navigateToViewNotes() async {
+    final updatedNotes = await Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => ViewNotesPage(notes: _notes)),
+    );
+
+    if (updatedNotes != null && updatedNotes is List<String>) {
+      setState(() {
+        _notes.clear();
+        _notes.addAll(updatedNotes);
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Notepad',
-          style: TextStyle(
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
+        title: const Text("Notepade App"),
         backgroundColor: Colors.blue,
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              const SizedBox(height: 30),
-              SizedBox(
-                width: 600,
-                height: 130,
-                child: TextField(
-                  controller: _controller,
-                  expands: true,
-                  maxLines: null,
-                  textAlignVertical: TextAlignVertical.top,
-                  decoration: const InputDecoration(
-                    labelText: "Enter Your Text",
-                    border: OutlineInputBorder(),
-                    contentPadding: EdgeInsets.all(10),
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                  ),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 150,
+              child: TextField(
+                controller: _controller,
+                expands: true,
+                maxLines: null,
+                textAlignVertical: TextAlignVertical.top,
+                decoration: const InputDecoration(
+                  labelText: "Enter your note",
+                  border: OutlineInputBorder(),
+                  contentPadding: EdgeInsets.all(10),
                 ),
               ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: saveNote,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
-                  foregroundColor: Colors.white,
-                ),
-                child: const Text("Save Note"),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _saveNote,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.white,
               ),
-              const SizedBox(height: 10),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AllNotesPage(notes: myNotes),
-                    ),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
-                  foregroundColor: Colors.white,
-                ),
-                child: const Text("Show All Notes"),
+              child: const Text("Save Note"),
+            ),
+            const SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: _navigateToViewNotes,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+                foregroundColor: Colors.white,
               ),
-              const SizedBox(height: 25),
-              const Text(
-                "Saved Notes",
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 10),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: myNotes.length,
-                itemBuilder: (context, index) {
-                  return Container(
-                    margin: const EdgeInsets.symmetric(
-                      vertical: 5,
-                      horizontal: 20,
-                    ),
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    decoration: BoxDecoration(
-                      color: Colors.green.shade100,
-                      borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: Colors.green),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Text(
-                            myNotes[index],
-                            style: const TextStyle(fontSize: 16),
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: () => deleteNote(index),
-                          icon: const Icon(Icons.delete, color: Colors.red),
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
-              const SizedBox(height: 20),
-            ],
-          ),
+              child: const Text("View Notes"),
+            ),
+            const SizedBox(height: 20),
+            const Text(
+              "Saved Notes",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+            Expanded(
+              child:
+                  _notes.isEmpty
+                      ? const Text("No notes yet.")
+                      : ListView.builder(
+                        itemCount: _notes.length,
+                        itemBuilder:
+                            (context, index) => Container(
+                              margin: const EdgeInsets.symmetric(vertical: 4),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 10,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.blue.shade50,
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(color: Colors.blueAccent),
+                              ),
+                              child: Text(_notes[index]),
+                            ),
+                      ),
+            ),
+          ],
         ),
       ),
     );
