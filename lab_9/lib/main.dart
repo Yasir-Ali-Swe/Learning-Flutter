@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'allNotesPage.dart'; // import the new page
 
 void main() {
   runApp(const MyApp());
@@ -11,7 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'Flutter Notepad',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
+
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -69,18 +71,16 @@ class _MyHomePageState extends State<MyHomePage> {
               const SizedBox(height: 30),
               SizedBox(
                 width: 600,
+                height: 130,
                 child: TextField(
                   controller: _controller,
+                  expands: true,
                   maxLines: null,
+                  textAlignVertical: TextAlignVertical.top,
                   decoration: const InputDecoration(
                     labelText: "Enter Your Text",
                     border: OutlineInputBorder(),
-                    contentPadding: EdgeInsets.only(
-                      top: 10,
-                      right: 10,
-                      left: 10,
-                      bottom: 30,
-                    ),
+                    contentPadding: EdgeInsets.all(10),
                     floatingLabelBehavior: FloatingLabelBehavior.always,
                   ),
                 ),
@@ -91,21 +91,29 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blue,
                   foregroundColor: Colors.white,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 12,
-                  ),
                 ),
                 child: const Text("Save Note"),
+              ),
+              const SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AllNotesPage(notes: myNotes),
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  foregroundColor: Colors.white,
+                ),
+                child: const Text("Show All Notes"),
               ),
               const SizedBox(height: 25),
               const Text(
                 "Saved Notes",
-                style: TextStyle(
-                  fontSize: 22,
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
               ListView.builder(
