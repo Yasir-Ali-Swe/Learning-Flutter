@@ -43,11 +43,13 @@ class _AddNotesPageState extends State<AddNotesPage> {
   }
 
   void _navigateToViewNotes() async {
+    // Pass the current notes to the ViewNotesPage, and get back the updated list
     final updatedNotes = await Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => ViewNotesPage(notes: _notes)),
     );
 
+    // If updated notes are received, update the state in the main page
     if (updatedNotes != null && updatedNotes is List<String>) {
       setState(() {
         _notes.clear();
@@ -60,7 +62,7 @@ class _AddNotesPageState extends State<AddNotesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Notepade App"),
+        title: const Text("Add Note"),
         backgroundColor: Colors.blue,
         centerTitle: true,
       ),
@@ -68,18 +70,14 @@ class _AddNotesPageState extends State<AddNotesPage> {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            SizedBox(
-              height: 150,
-              child: TextField(
-                controller: _controller,
-                expands: true,
-                maxLines: null,
-                textAlignVertical: TextAlignVertical.top,
-                decoration: const InputDecoration(
-                  labelText: "Enter your note",
-                  border: OutlineInputBorder(),
-                  contentPadding: EdgeInsets.all(10),
-                ),
+            TextField(
+              controller: _controller,
+              maxLines: null,
+              textAlignVertical: TextAlignVertical.top,
+              decoration: const InputDecoration(
+                labelText: "Enter your note",
+                border: OutlineInputBorder(),
+                contentPadding: EdgeInsets.all(10),
               ),
             ),
             const SizedBox(height: 20),

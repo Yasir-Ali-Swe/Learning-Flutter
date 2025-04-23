@@ -10,24 +10,23 @@ class ViewNotesPage extends StatefulWidget {
 }
 
 class _ViewNotesPageState extends State<ViewNotesPage> {
-  late List<String> notesCopy;
+  late List<String> _notes;
 
   @override
   void initState() {
     super.initState();
-    notesCopy = List.from(widget.notes);
+    _notes = List.from(widget.notes);
   }
 
   void _deleteNote(int index) {
     setState(() {
-      notesCopy.removeAt(index);
+      _notes.removeAt(index);
     });
   }
 
-  @override
-  void dispose() {
-    Navigator.pop(context, notesCopy); // return updated list to main screen
-    super.dispose();
+  void _backToMainPage() {
+    // Return the updated list of notes to the main page
+    Navigator.pop(context, _notes);
   }
 
   @override
@@ -36,34 +35,68 @@ class _ViewNotesPageState extends State<ViewNotesPage> {
       appBar: AppBar(
         title: const Text("View Notes"),
         backgroundColor: Colors.blue,
+        centerTitle: true,
       ),
-      body:
-          notesCopy.isEmpty
-              ? const Center(child: Text("No notes available."))
-              : ListView.builder(
-                padding: const EdgeInsets.all(16),
-                itemCount: notesCopy.length,
-                itemBuilder:
-                    (context, index) => Container(
-                      margin: const EdgeInsets.symmetric(vertical: 6),
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: Colors.yellow.shade100,
-                        border: Border.all(color: Colors.amber),
-                        borderRadius: BorderRadius.circular(10),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          children: [
+            const Text(
+              "Your Notes",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+            Expanded(
+              child:
+                  _notes.isEmpty
+                      ? const Center(child: Text("No notes available"))
+                      : ListView.builder(
+                        itemCount: _notes.length,
+                        itemBuilder:
+                            (context, index) => Container(
+                              margin: const EdgeInsets.symmetric(vertical: 4),
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 12,
+                                vertical: 10,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.green.shade50,
+                                borderRadius: BorderRadius.circular(8),
+                                border: Border.all(color: Colors.greenAccent),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      _notes[index],
+                                      style: const TextStyle(fontSize: 16),
+                                    ),
+                                  ),
+                                  IconButton(
+                                    onPressed: () => _deleteNote(index),
+                                    icon: const Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(child: Text(notesCopy[index])),
-                          IconButton(
-                            onPressed: () => _deleteNote(index),
-                            icon: const Icon(Icons.delete, color: Colors.red),
-                          ),
-                        ],
-                      ),
-                    ),
+            ),
+            ElevatedButton(
+              onPressed: _backToMainPage,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.white,
               ),
+              child: const Text("Back to Add Notes"),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
